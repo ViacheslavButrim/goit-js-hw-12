@@ -1,0 +1,145 @@
+/**
+  |============================
+  | include css partials with
+  | default @import url()
+  |============================
+*/
+/* Common styles */
+@import url('./reset.css');
+@import url('./base.css');
+
+.form {
+  display: flex;
+  justify-content: center;
+  padding-top: 36px;
+  gap: 8px;
+}
+.input-field {
+  width: 272px;
+  height: 37px;
+  padding: 0 0 0 16px;
+  border-radius: 4px;
+}
+.btn {
+  font-family: "Montserrat", sans-serif;
+font-weight: 500;
+font-size: 16px;
+line-height: 1.5;
+letter-spacing: 0.04em;
+color: #fff;
+background-color: #4e75ff;;
+border-radius: 8px;
+padding: 8px 16px;
+width: 91px;
+height: 40px;
+}
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.gallery__item {
+  list-style: none;
+  margin: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.gallery__link {
+  display: block;
+  text-decoration: none;
+}
+
+.gallery__image {
+  width: 360px;
+  height: 200px;
+  display: block;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.gallery__link:hover .gallery__image {
+  transform: scale(1.05);
+}
+.info {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  font-family: 'Inter', sans-serif;
+}
+.info__item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/* castom loader */
+.loader {
+   position: relative;
+    width: 164px;
+    height: 164px;
+    border-radius: 50%;
+    animation: rotate 0.75s linear infinite;
+  }
+  .loader::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    border: 1px solid #FF3D00;
+    border-width: 12px 2px 7px;
+    border-radius: 2px 2px 1px 1px;
+    box-sizing: border-box;
+    transform: rotate(45deg) translate(24px, -10px);
+    background-image: linear-gradient(#FF3D00 20px, transparent 0),
+    linear-gradient(#FF3D00 30px, transparent 0),
+    linear-gradient(#FF3D00 30px, transparent 0);
+    background-size: 10px 12px , 1px 30px, 1px 30px;
+    background-repeat: no-repeat;
+    background-position: center , 12px 0px , 3px 0px;
+}
+  .loader::after {
+    content: '';
+    position: absolute;
+    height: 4px;
+    width: 4px;
+    left: 20px;
+    top: 47px;
+    border-radius: 50%;
+    color: hsl(51, 97%, 48%);
+    box-shadow: -4px 7px 2px, -7px 16px 3px 1px,
+      -11px 24px 4px 1px, -6px 24px 4px 1px,
+      -14px 35px 6px 2px, -5px 36px 8px 2px,
+      -5px 45px 8px 2px, -14px 49px 8px 2px,
+      6px 60px 11px 1px, -11px 66px 11px 1px,
+      11px 75px 13px, -1px 82px 15px;
+  }
+
+@keyframes rotate {
+  to{transform:rotate(360deg)   }
+}
+  
+  
+
+.loader-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: none; 
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.loader-backdrop.is-active {
+  display: flex;
+  opacity: 1;
+}
