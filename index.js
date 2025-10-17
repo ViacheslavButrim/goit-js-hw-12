@@ -1,0 +1,14 @@
+import{a as g,S as y,i as n}from"./assets/vendor-D8hBcPQM.js";(function(){const r=document.createElement("link").relList;if(r&&r.supports&&r.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))s(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const a of t.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&s(a)}).observe(document,{childList:!0,subtree:!0});function o(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function s(e){if(e.ep)return;e.ep=!0;const t=o(e);fetch(e.href,t)}})();const h="52783662-08dd67e4a79565a2d6e8bbcbe",b="https://pixabay.com/api/";function L(i){const r={key:h,q:i,image_type:"photo",orientation:"horizontal",safesearch:!0,per_page:40};return g.get(b,{params:r}).then(o=>o.data)}const _=".gallery",c=document.querySelector(".gallery");document.querySelector(".loader");const p=new y(`${_} a`,{captionsData:"alt",captionDelay:250});function S(i){if(!c)return;const r=i.map(o=>{const{webformatURL:s,largeImageURL:e,tags:t,likes:a,views:f,comments:m,downloads:d}=o;return`
+        <li class="gallery__item">
+          <a class="gallery__link" href="${e}">
+            <img class="gallery__image" src="${s}" alt="${t}" loading="lazy" />
+            <div class="info">
+              <p class="info__item"><b>Likes</b><span>${a}</span></p>
+              <p class="info__item"><b>Views</b><span>${f}</span></p>
+              <p class="info__item"><b>Comments</b><span>${m}</span></p>
+              <p class="info__item"><b>Downloads</b><span>${d}</span></p>
+            </div>
+          </a>
+        </li>
+      `}).join("");c.insertAdjacentHTML("beforeend",r),p.refresh()}function v(){c&&(c.innerHTML="",p.refresh())}const l=document.querySelector(".loader-backdrop");function w(){l&&l.classList.add("is-active")}function q(){l&&l.classList.remove("is-active")}const u=document.querySelector(".form"),P=u.querySelector('input[name="search-text"]');u.addEventListener("submit",E);function E(i){i.preventDefault();const r=P.value.trim();if(!r){n.error({title:"Warning",message:"Please enter a search query.",position:"topRight"});return}w(),v(),u.reset(),L(r).then(o=>{const s=o.hits;if(!Array.isArray(s)||s.length===0){n.error({title:"",message:"Sorry, there are no images matching your search query. Please try again!",position:"topRight"});return}S(s),n.success({title:"",message:`Found ${o.totalHits??s.length} images.`,position:"topRight"})}).catch(o=>{console.error("Pixabay API error:",o),n.error({title:"Error",message:"Something went wrong while fetching images. Please try again later.",position:"topRight"})}).finally(()=>{q()})}
+//# sourceMappingURL=index.js.map
