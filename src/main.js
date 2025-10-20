@@ -113,7 +113,7 @@ const cardHeight = document.querySelector('.gallery').firstElementChild.offsetHe
 
       // scroll two card heights
       window.scrollBy({
-        top: cardHeight * 2.3,
+        top: cardHeight * 3,
         behavior: 'smooth',
       });
     }
