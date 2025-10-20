@@ -113,7 +113,7 @@ async function onLoadMore() {
 
       // scroll two card heights
       window.scrollBy({
-        top: cardHeight * 2.5,
+        top: cardHeight * 2,
         behavior: 'smooth',
       });
     }
