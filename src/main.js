@@ -109,11 +109,11 @@ async function onLoadMore() {
     // get the height of the first card
     const firstCard = document.querySelector('.gallery__item');
     if (firstCard) {
-const cardHeight = document.querySelector('.gallery').firstElementChild.offsetHeight;
+      const cardHeight = firstCard.getBoundingClientRect().height;
 
-      // scroll two card heights
+      // scroll two card heights (по ТЗ)
       window.scrollBy({
-        top: cardHeight * 3,
+        top: cardHeight * 2,
         behavior: 'smooth',
       });
     }
