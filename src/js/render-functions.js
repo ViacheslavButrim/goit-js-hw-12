@@ -10,7 +10,7 @@ const galleryEl = document.querySelector(GALLERY_SELECTOR);
 const loaderBackdropEl = document.querySelector(LOADER_BACKDROP_SELECTOR);
 const loadMoreBtn = document.querySelector(LOAD_MORE_BTN_SELECTOR);
 
-// initial SimpleLightbox
+// init SimpleLightbox
 export const lightbox = new SimpleLightbox(`${GALLERY_SELECTOR} a`, {
   captionsData: 'alt',
   captionDelay: 250,
@@ -51,7 +51,7 @@ export function clearGallery() {
   lightbox.refresh();
 }
 
-// loader
+// loader control
 export function showLoader() {
   if (!loaderBackdropEl) return;
   loaderBackdropEl.classList.add('is-active');
@@ -62,33 +62,18 @@ export function hideLoader() {
   loaderBackdropEl.classList.remove('is-active');
 }
 
-// load more button control
+// load more button control 
 export function showLoadMoreButton() {
   if (!loadMoreBtn) return;
-  loadMoreBtn.classList.add('is-visible');
+  loadMoreBtn.style.display = 'block'; 
 }
 
 export function hideLoadMoreButton() {
   if (!loadMoreBtn) return;
-  loadMoreBtn.classList.remove('is-visible');
-}
-// render-functions.js
-
-export function showLoadMoreButton() {
-  const btn = document.querySelector('.load-more');
-  if (btn) {
-    btn.style.display = 'block'; 
-  }
+  loadMoreBtn.style.display = 'none';
 }
 
-export function hideLoadMoreButton() {
-  const btn = document.querySelector('.load-more');
-  if (btn) {
-    btn.style.display = 'none';
-  }
-}
-
-// for scroll: height first card
+// for scroll: height of first card
 export function getCardHeight() {
   if (!galleryEl) return 0;
   const firstItem = galleryEl.querySelector('.gallery__item');
