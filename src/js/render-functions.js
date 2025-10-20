@@ -72,6 +72,21 @@ export function hideLoadMoreButton() {
   if (!loadMoreBtn) return;
   loadMoreBtn.classList.remove('is-visible');
 }
+// render-functions.js
+
+export function showLoadMoreButton() {
+  const btn = document.querySelector('.load-more');
+  if (btn) {
+    btn.style.display = 'block'; 
+  }
+}
+
+export function hideLoadMoreButton() {
+  const btn = document.querySelector('.load-more');
+  if (btn) {
+    btn.style.display = 'none';
+  }
+}
 
 // for scroll: height first card
 export function getCardHeight() {
