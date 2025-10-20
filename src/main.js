@@ -94,42 +94,31 @@ async function onLoadMore() {
       return;
     }
 
-    // add new images
+    // add new cards
     createGallery(images);
 
-    // time to render the DOM
-    setTimeout(() => {
-      const firstCard = document.querySelector('.gallery__item');
-      if (firstCard) {
-        const cardHeight = firstCard.getBoundingClientRect().height;
-        const scrollTarget = cardHeight * 2;
+    // waiting for all the new pictures to load
+    const newImages = document.querySelectorAll('.gallery__item img');
+    const loadPromises = Array.from(newImages)
+      .filter(img => !img.complete)
+      .map(img => new Promise(resolve => {
+        img.onload = img.onerror = resolve;
+      }));
+    await Promise.all(loadPromises);
 
-        // custom smooth scrolling
-        const duration = 800;
-        const start = window.scrollY;
-        const startTime = performance.now();
+    // get the height of the first card
+    const firstCard = document.querySelector('.gallery__item');
+    if (firstCard) {
+      const cardHeight = firstCard.getBoundingClientRect().height;
 
-        function scrollStep(timestamp) {
-          const elapsed = timestamp - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          
-          // easeInOutQuad for smoothness
-          const ease = progress < 0.5
-            ? 2 * progress * progress
-            : -1 + (4 - 2 * progress) * progress;
+      // scroll two card heights
+      window.scrollBy({
+        top: cardHeight * 2.3,
+        behavior: 'smooth',
+      });
+    }
 
-          window.scrollTo(0, start + scrollTarget * ease);
-
-          if (progress < 1) {
-            requestAnimationFrame(scrollStep);
-          }
-        }
-
-        requestAnimationFrame(scrollStep);
-      }
-    }, 50); // some delay for DOM rendering
-
-    // button Load More
+    // button control Load More
     if (currentPage * PER_PAGE >= totalHits) {
       hideLoadMoreButton();
       iziToast.info({
