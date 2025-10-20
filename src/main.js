@@ -111,7 +111,7 @@ async function onLoadMore() {
     if (firstCard) {
       const cardHeight = firstCard.getBoundingClientRect().height;
 
-      // scroll two card heights (по ТЗ)
+      // scroll two card heights
       window.scrollBy({
         top: cardHeight * 2,
         behavior: 'smooth',
