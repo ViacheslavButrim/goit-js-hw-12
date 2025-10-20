@@ -4,11 +4,11 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 // selectors
 const GALLERY_SELECTOR = '.gallery';
 const LOADER_BACKDROP_SELECTOR = '.loader-backdrop';
-const LOAD_MORE_BTN_SELECTOR = '.load-more';
+const LOAD_MORE_WRAPPER_SELECTOR = '.load-more-wrapper';
 
 const galleryEl = document.querySelector(GALLERY_SELECTOR);
 const loaderBackdropEl = document.querySelector(LOADER_BACKDROP_SELECTOR);
-const loadMoreBtn = document.querySelector(LOAD_MORE_BTN_SELECTOR);
+const wrapperEl = document.querySelector(LOAD_MORE_WRAPPER_SELECTOR);
 
 // init SimpleLightbox
 export const lightbox = new SimpleLightbox(`${GALLERY_SELECTOR} a`, {
@@ -22,7 +22,15 @@ export function createGallery(images) {
 
   const markup = images
     .map(image => {
-      const { webformatURL, largeImageURL, tags, likes, views, comments, downloads } = image;
+      const {
+        webformatURL,
+        largeImageURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      } = image;
 
       return `
         <li class="gallery__item">
@@ -62,15 +70,22 @@ export function hideLoader() {
   loaderBackdropEl.classList.remove('is-active');
 }
 
-// load more button control 
-export function showLoadMoreButton() {
-  if (!loadMoreBtn) return;
-  loadMoreBtn.style.display = 'block'; 
+// load more button (dynamic creation/removal)
+export function showLoadMoreButton(onClick) {
+  if (document.querySelector('.load-more')) return; // already exists
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.classList.add('load-more');
+  button.textContent = 'Load more';
+
+  wrapperEl.appendChild(button);
+  button.addEventListener('click', onClick);
 }
 
 export function hideLoadMoreButton() {
-  if (!loadMoreBtn) return;
-  loadMoreBtn.style.display = 'none';
+  const btn = document.querySelector('.load-more');
+  if (btn) btn.remove();
 }
 
 // for scroll: height of first card

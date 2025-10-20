@@ -14,17 +14,12 @@ import 'izitoast/dist/css/iziToast.min.css';
 
 const form = document.querySelector('.form');
 const input = form.querySelector('input[name="search-text"]');
-const loadMoreBtn = document.querySelector('.load-more');
-
-// hide the button so that it does not glow in DOM
-hideLoadMoreButton();
 
 let currentQuery = '';
 let currentPage = 1;
 let totalHits = 0;
 
 form.addEventListener('submit', onSearch);
-loadMoreBtn.addEventListener('click', onLoadMore);
 
 async function onSearch(event) {
   event.preventDefault();
@@ -39,7 +34,6 @@ async function onSearch(event) {
     return;
   }
 
-  // new search session
   currentQuery = query;
   currentPage = 1;
   totalHits = 0;
@@ -68,9 +62,9 @@ async function onSearch(event) {
       position: 'topRight',
     });
 
-    // button Load more
+    // show Load More if more pages exist
     if (currentPage * PER_PAGE < totalHits) {
-      showLoadMoreButton();
+      showLoadMoreButton(onLoadMore);
     } else {
       hideLoadMoreButton();
       iziToast.info({
@@ -96,6 +90,7 @@ async function onLoadMore() {
 
   currentPage += 1;
   showLoader();
+  hideLoadMoreButton(); // hide the button while new images are loading
 
   try {
     const data = await getImagesByQuery(currentQuery, currentPage);
@@ -110,10 +105,9 @@ async function onLoadMore() {
       return;
     }
 
-    // add new cards
     createGallery(images);
 
-    // waiting for download a new images 
+    // wait for all images to load
     const newImages = document.querySelectorAll('.gallery__item img');
     const loadPromises = Array.from(newImages)
       .filter(img => !img.complete)
@@ -125,17 +119,14 @@ async function onLoadMore() {
       );
     await Promise.all(loadPromises);
 
-    // scrolling 2 card heights
-    const firstCard = document.querySelector('.gallery__item');
-    if (firstCard) {
-      const cardHeight = firstCard.getBoundingClientRect().height;
-      window.scrollBy({
-        top: cardHeight * 2,
-        behavior: 'smooth',
-      });
-    }
+    // smooth scrolling
+    const cardHeight = getCardHeight();
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
 
-    // control button Load more
+    // show or hide button
     if (currentPage * PER_PAGE >= totalHits) {
       hideLoadMoreButton();
       iziToast.info({
@@ -143,7 +134,7 @@ async function onLoadMore() {
         position: 'topRight',
       });
     } else {
-      showLoadMoreButton();
+      showLoadMoreButton(onLoadMore);
     }
   } catch (err) {
     console.error(err);
@@ -156,4 +147,3 @@ async function onLoadMore() {
     hideLoader();
   }
 }
-
