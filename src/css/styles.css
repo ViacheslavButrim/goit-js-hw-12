@@ -37,8 +37,10 @@ height: 40px;
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
-  padding: 20px;
+  padding: 32px 0 0;
   justify-content: center;
+  max-width: 1128px;
+  margin: 0 auto;
 }
 
 .gallery__item {
@@ -58,7 +60,6 @@ height: 40px;
   width: 360px;
   height: 200px;
   display: block;
-  border-radius: 8px;
   transition: transform 0.3s ease;
 }
 
@@ -79,6 +80,7 @@ height: 40px;
   justify-content: center;
   align-items: center;
 }
+
 /* castom loader */
 .loader {
    position: relative;
@@ -125,8 +127,6 @@ height: 40px;
   to{transform:rotate(360deg)   }
 }
   
-  
-
 .loader-backdrop {
   position: fixed;
   inset: 0;
@@ -142,4 +142,23 @@ height: 40px;
 .loader-backdrop.is-active {
   display: flex;
   opacity: 1;
+}
+.load-more {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  border-radius: 8px;
+padding: 8px 16px;
+min-width: 125px;
+min-height: 40px;
+font-family: "Montserrat", sans-serif;
+font-weight: 500;
+font-size: 16px;
+line-height: 1.5;
+letter-spacing: 0.04em;
+color: #fff;
+background-color: #4e75ff;
+}
+.load-more-wrapper {
+  padding: 32px 0 44px;
 }

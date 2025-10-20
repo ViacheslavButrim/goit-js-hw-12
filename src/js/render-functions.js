@@ -1,34 +1,28 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-
+// selectors
 const GALLERY_SELECTOR = '.gallery';
-const LOADER_SELECTOR = '.loader';
+const LOADER_BACKDROP_SELECTOR = '.loader-backdrop';
+const LOAD_MORE_BTN_SELECTOR = '.load-more';
 
-const galleryEl = document.querySelector('.gallery');
-const loaderEl = document.querySelector('.loader');
+const galleryEl = document.querySelector(GALLERY_SELECTOR);
+const loaderBackdropEl = document.querySelector(LOADER_BACKDROP_SELECTOR);
+const loadMoreBtn = document.querySelector(LOAD_MORE_BTN_SELECTOR);
 
-// initial SimpleLightbox 
+// initial SimpleLightbox
 export const lightbox = new SimpleLightbox(`${GALLERY_SELECTOR} a`, {
   captionsData: 'alt',
   captionDelay: 250,
 });
 
-// create and add murkup of gallery 
+// create and add markup in gallery
 export function createGallery(images) {
-  if (!galleryEl) return;
+  if (!galleryEl || !Array.isArray(images) || images.length === 0) return;
 
   const markup = images
     .map(image => {
-      const {
-        webformatURL,
-        largeImageURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      } = image;
+      const { webformatURL, largeImageURL, tags, likes, views, comments, downloads } = image;
 
       return `
         <li class="gallery__item">
@@ -46,29 +40,43 @@ export function createGallery(images) {
     })
     .join('');
 
-  // add new elements in DOM 
   galleryEl.insertAdjacentHTML('beforeend', markup);
-
-  // update SimpleLightbox
   lightbox.refresh();
 }
 
-// clear container contents 
+// clear gallery
 export function clearGallery() {
   if (!galleryEl) return;
   galleryEl.innerHTML = '';
-  // update lightbox after clearing
   lightbox.refresh();
 }
 
-const loaderBackdrop = document.querySelector('.loader-backdrop');
-
+// loader
 export function showLoader() {
-  if (!loaderBackdrop) return;
-  loaderBackdrop.classList.add('is-active');
+  if (!loaderBackdropEl) return;
+  loaderBackdropEl.classList.add('is-active');
 }
 
 export function hideLoader() {
-  if (!loaderBackdrop) return;
-  loaderBackdrop.classList.remove('is-active');
+  if (!loaderBackdropEl) return;
+  loaderBackdropEl.classList.remove('is-active');
+}
+
+// load more button control
+export function showLoadMoreButton() {
+  if (!loadMoreBtn) return;
+  loadMoreBtn.classList.add('is-visible');
+}
+
+export function hideLoadMoreButton() {
+  if (!loadMoreBtn) return;
+  loadMoreBtn.classList.remove('is-visible');
+}
+
+// for scroll: height first card
+export function getCardHeight() {
+  if (!galleryEl) return 0;
+  const firstItem = galleryEl.querySelector('.gallery__item');
+  if (!firstItem) return 0;
+  return firstItem.getBoundingClientRect().height;
 }
