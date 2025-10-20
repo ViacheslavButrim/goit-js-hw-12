@@ -16,6 +16,9 @@ const form = document.querySelector('.form');
 const input = form.querySelector('input[name="search-text"]');
 const loadMoreBtn = document.querySelector('.load-more');
 
+// hide the button so that it does not glow in DOM
+hideLoadMoreButton();
+
 let currentQuery = '';
 let currentPage = 1;
 let totalHits = 0;
@@ -28,11 +31,15 @@ async function onSearch(event) {
   const query = input.value.trim();
 
   if (!query) {
-    iziToast.error({ title: 'Warning', message: 'Please enter a search query.', position: 'topRight' });
+    iziToast.error({
+      title: 'Warning',
+      message: 'Please enter a search query.',
+      position: 'topRight',
+    });
     return;
   }
 
-  // new search
+  // new search session
   currentQuery = query;
   currentPage = 1;
   totalHits = 0;
@@ -48,28 +55,37 @@ async function onSearch(event) {
 
     if (!images.length) {
       iziToast.error({
-        title: '',
-        message: 'Sorry, there are no images matching your search query. Please try again!',
+        message:
+          'Sorry, there are no images matching your search query. Please try again!',
         position: 'topRight',
       });
       return;
     }
 
     createGallery(images);
-    iziToast.success({ title: '', message: `Found ${totalHits} images.`, position: 'topRight' });
+    iziToast.success({
+      message: `Found ${totalHits} images.`,
+      position: 'topRight',
+    });
 
     // button Load more
     if (currentPage * PER_PAGE < totalHits) {
       showLoadMoreButton();
     } else {
       hideLoadMoreButton();
-      iziToast.info({ title: '', message: "We're sorry, but you've reached the end of search results.", position: 'topRight' });
+      iziToast.info({
+        message: "We're sorry, but you've reached the end of search results.",
+        position: 'topRight',
+      });
     }
 
     form.reset();
   } catch (err) {
     console.error(err);
-    iziToast.error({ title: '', message: 'Something went wrong. Try again later.', position: 'topRight' });
+    iziToast.error({
+      message: 'Something went wrong. Try again later.',
+      position: 'topRight',
+    });
   } finally {
     hideLoader();
   }
@@ -97,28 +113,29 @@ async function onLoadMore() {
     // add new cards
     createGallery(images);
 
-    // waiting for all the new pictures to load
+    // waiting for download a new images 
     const newImages = document.querySelectorAll('.gallery__item img');
     const loadPromises = Array.from(newImages)
       .filter(img => !img.complete)
-      .map(img => new Promise(resolve => {
-        img.onload = img.onerror = resolve;
-      }));
+      .map(
+        img =>
+          new Promise(resolve => {
+            img.onload = img.onerror = resolve;
+          })
+      );
     await Promise.all(loadPromises);
 
-    // get the height of the first card
+    // scrolling 2 card heights
     const firstCard = document.querySelector('.gallery__item');
     if (firstCard) {
       const cardHeight = firstCard.getBoundingClientRect().height;
-
-      // scroll two card heights
       window.scrollBy({
         top: cardHeight * 2,
         behavior: 'smooth',
       });
     }
 
-    // button control Load More
+    // control button Load more
     if (currentPage * PER_PAGE >= totalHits) {
       hideLoadMoreButton();
       iziToast.info({
@@ -128,7 +145,6 @@ async function onLoadMore() {
     } else {
       showLoadMoreButton();
     }
-
   } catch (err) {
     console.error(err);
     currentPage = Math.max(1, currentPage - 1);
@@ -140,3 +156,4 @@ async function onLoadMore() {
     hideLoader();
   }
 }
+
