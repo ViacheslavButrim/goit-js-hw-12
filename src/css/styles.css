@@ -162,3 +162,6 @@ background-color: #4e75ff;
 .load-more-wrapper {
   padding: 32px 0 44px;
 }
+.is-hidden {
+  display: none;
+}
